@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Election Feed GA</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
+    <style>
+        #container {
+            height: 100%;
+            width: 100%;
+            display: flex;
+        }
+
+    </style>
+    <style>
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+
+        .info {
+            padding: 6px 8px;
+            font: 14px/16px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+
+        .info h3, h4 {
+            margin: 0 0 5px;
+            color: #777;
+        }
+
+        .legend {
+            line-height: 18px;
+            color: #555;
+        }
+
+        .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 32px;
+            opacity: 0.7;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+
+    </style>
+
+</head>
+<body>
+<div id="container">
+
+    <div id="map"></div>
+
+</div>
+</body>
+</html>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.8.3/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.8.3/firebase-firestore-compat.js"></script>
+
+<script src="./js/counties/GEORGIA.js"></script>
+
+<script src="./js/counties/APPLING.js"></script>
+<script src="./js/counties/ATKINSON.js"></script>
+<script src="./js/counties/BACON.js"></script>
+<script src="./js/counties/BAKER.js"></script>
+<script src="./js/counties/BALDWIN.js"></script>
+<script src="./js/counties/BANKS.js"></script>
+<script src="./js/counties/BARROW.js"></script>
+<script src="./js/counties/BARTOW.js"></script>
+<script src="./js/counties/BEN HILL.js"></script>
+<script src="./js/counties/BERRIEN.js"></script>
+<script src="./js/counties/BIBB.js"></script>
+<script src="./js/counties/BLECKLEY.js"></script>
+<script src="./js/counties/BRANTLEY.js"></script>
+<script src="./js/counties/BROOKS.js"></script>
+<script src="./js/counties/BRYAN.js"></script>
+<script src="./js/counties/BULLOCH.js"></script>
+<script src="./js/counties/BURKE.js"></script>
+<script src="./js/counties/BUTTS.js"></script>
+<script src="./js/counties/CALHOUN.js"></script>
+<script src="./js/counties/CAMDEN.js"></script>
+<script src="./js/counties/CANDLER.js"></script>
+<script src="./js/counties/CARROLL.js"></script>
+<script src="./js/counties/CATOOSA.js"></script>
+<script src="./js/counties/CHARLTON.js"></script>
+<script src="./js/counties/CHATHAM.js"></script>
+<script src="./js/counties/CHATTAHOOCHEE.js"></script>
+<script src="./js/counties/CHATTOOGA.js"></script>
+<script src="./js/counties/CHEROKEE.js"></script>
+<script src="./js/counties/CLARKE.js"></script>
+<script src="./js/counties/CLAY.js"></script>
+<script src="./js/counties/CLAYTON.js"></script>
+<script src="./js/counties/CLINCH.js"></script>
+<script src="./js/counties/COBB.js"></script>
+<script src="./js/counties/COFFEE.js"></script>
+<script src="./js/counties/COLQUITT.js"></script>
+<script src="./js/counties/COLUMBIA.js"></script>
+<script src="./js/counties/COOK.js"></script>
+<script src="./js/counties/COWETA.js"></script>
+<script src="./js/counties/CRAWFORD.js"></script>
+<script src="./js/counties/CRISP.js"></script>
+<script src="./js/counties/DADE.js"></script>
+<script src="./js/counties/DAWSON.js"></script>
+<script src="./js/counties/DECATUR.js"></script>
+<script src="./js/counties/DEKALB.js"></script>
+<script src="./js/counties/DODGE.js"></script>
+<script src="./js/counties/DOOLY.js"></script>
+<script src="./js/counties/DOUGHERTY.js"></script>
+<script src="./js/counties/DOUGLAS.js"></script>
+<script src="./js/counties/EARLY.js"></script>
+<script src="./js/counties/ECHOLS.js"></script>
+<script src="./js/counties/EFFINGHAM.js"></script>
+<script src="./js/counties/ELBERT.js"></script>
+<script src="./js/counties/EMANUEL.js"></script>
+<script src="./js/counties/EVANS.js"></script>
+<script src="./js/counties/FANNIN.js"></script>
+<script src="./js/counties/FAYETTE.js"></script>
+<script src="./js/counties/FLOYD.js"></script>
+<script src="./js/counties/FORSYTH.js"></script>
+<script src="./js/counties/FRANKLIN.js"></script>
+<script src="./js/counties/FULTON.js"></script>
+<script src="./js/counties/GILMER.js"></script>
+<script src="./js/counties/GLASCOCK.js"></script>
+<script src="./js/counties/GLYNN.js"></script>
+<script src="./js/counties/GORDON.js"></script>
+<script src="./js/counties/GRADY.js"></script>
+<script src="./js/counties/GREENE.js"></script>
+<script src="./js/counties/GWINNETT.js"></script>
+<script src="./js/counties/HABERSHAM.js"></script>
+<script src="./js/counties/HALL.js"></script>
+<script src="./js/counties/HANCOCK.js"></script>
+<script src="./js/counties/HARALSON.js"></script>
+<script src="./js/counties/HARRIS.js"></script>
+<script src="./js/counties/HART.js"></script>
+<script src="./js/counties/HEARD.js"></script>
+<script src="./js/counties/HENRY.js"></script>
+<script src="./js/counties/HOUSTON.js"></script>
+<script src="./js/counties/IRWIN.js"></script>
+<script src="./js/counties/JACKSON.js"></script>
+<script src="./js/counties/JASPER.js"></script>
+<script src="./js/counties/JEFF DAVIS.js"></script>
+<script src="./js/counties/JEFFERSON.js"></script>
+<script src="./js/counties/JENKINS.js"></script>
+<script src="./js/counties/JOHNSON.js"></script>
+<script src="./js/counties/JONES.js"></script>
+<script src="./js/counties/LAMAR.js"></script>
+<script src="./js/counties/LANIER.js"></script>
+<script src="./js/counties/LAURENS.js"></script>
+<script src="./js/counties/LEE.js"></script>
+<script src="./js/counties/LIBERTY.js"></script>
+<script src="./js/counties/LINCOLN.js"></script>
+<script src="./js/counties/LONG.js"></script>
+<script src="./js/counties/LOWNDES.js"></script>
+<script src="./js/counties/LUMPKIN.js"></script>
+<script src="./js/counties/MACON.js"></script>
+<script src="./js/counties/MADISON.js"></script>
+<script src="./js/counties/MARION.js"></script>
+<script src="./js/counties/MCDUFFIE.js"></script>
+<script src="./js/counties/MCINTOSH.js"></script>
+<script src="./js/counties/MERIWETHER.js"></script>
+<script src="./js/counties/MILLER.js"></script>
+<script src="./js/counties/MITCHELL.js"></script>
+<script src="./js/counties/MONROE.js"></script>
+<script src="./js/counties/MONTGOMERY.js"></script>
+<script src="./js/counties/MORGAN.js"></script>
+<script src="./js/counties/MURRAY.js"></script>
+<script src="./js/counties/MUSCOGEE.js"></script>
+<script src="./js/counties/NEWTON.js"></script>
+<script src="./js/counties/OCONEE.js"></script>
+<script src="./js/counties/OGLETHORPE.js"></script>
+<script src="./js/counties/PAULDING.js"></script>
+<script src="./js/counties/PEACH.js"></script>
+<script src="./js/counties/PICKENS.js"></script>
+<script src="./js/counties/PIERCE.js"></script>
+<script src="./js/counties/PIKE.js"></script>
+<script src="./js/counties/POLK.js"></script>
+<script src="./js/counties/PULASKI.js"></script>
+<script src="./js/counties/PUTNAM.js"></script>
+<script src="./js/counties/QUITMAN.js"></script>
+<script src="./js/counties/RABUN.js"></script>
+<script src="./js/counties/RANDOLPH.js"></script>
+<script src="./js/counties/RICHMOND.js"></script>
+<script src="./js/counties/ROCKDALE.js"></script>
+<script src="./js/counties/SCHLEY.js"></script>
+<script src="./js/counties/SCREVEN.js"></script>
+<script src="./js/counties/SEMINOLE.js"></script>
+<script src="./js/counties/SPALDING.js"></script>
+<script src="./js/counties/STEPHENS.js"></script>
+<script src="./js/counties/STEWART.js"></script>
+<script src="./js/counties/SUMTER.js"></script>
+<script src="./js/counties/TALBOT.js"></script>
+<script src="./js/counties/TALIAFERRO.js"></script>
+<script src="./js/counties/TATTNALL.js"></script>
+<script src="./js/counties/TAYLOR.js"></script>
+<script src="./js/counties/TELFAIR.js"></script>
+<script src="./js/counties/TERRELL.js"></script>
+<script src="./js/counties/THOMAS.js"></script>
+<script src="./js/counties/TIFT.js"></script>
+<script src="./js/counties/TOOMBS.js"></script>
+<script src="./js/counties/TOWNS.js"></script>
+<script src="./js/counties/TREUTLEN.js"></script>
+<script src="./js/counties/TROUP.js"></script>
+<script src="./js/counties/TURNER.js"></script>
+<script src="./js/counties/TWIGGS.js"></script>
+<script src="./js/counties/UNION.js"></script>
+<script src="./js/counties/UPSON.js"></script>
+<script src="./js/counties/WALKER.js"></script>
+<script src="./js/counties/WALTON.js"></script>
+<script src="./js/counties/WARE.js"></script>
+<script src="./js/counties/WARREN.js"></script>
+<script src="./js/counties/WASHINGTON.js"></script>
+<script src="./js/counties/WAYNE.js"></script>
+<script src="./js/counties/WEBSTER.js"></script>
+<script src="./js/counties/WHEELER.js"></script>
+<script src="./js/counties/WHITE.js"></script>
+<script src="./js/counties/WHITFIELD.js"></script>
+<script src="./js/counties/WILCOX.js"></script>
+<script src="./js/counties/WILKES.js"></script>
+<script src="./js/counties/WILKINSON.js"></script>
+<script src="./js/counties/WORTH.js"></script>
+
+<script src="./js/firebase.js"></script>
+<script src="./js/main.js"></script>
